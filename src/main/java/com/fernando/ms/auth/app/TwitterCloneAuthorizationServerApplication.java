@@ -1,4 +1,4 @@
-package com.fernando.ms.auth.app.twitter_clone_authorization_server;
+package com.fernando.ms.auth.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

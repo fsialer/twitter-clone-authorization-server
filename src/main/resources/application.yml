@@ -1,0 +1,31 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: twitter-clone-authorization-server
+
+client-app:
+  url: ${CLIENT_URL:http://localhost:8090}
+
+users-service:
+  url: ${USER_URL:http://localhost:8090/api/users}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+
+auth-service:
+  url: ${AUTH_SERVER:http://localhost:9000}
+
+code-authorization:
+  client-id: ${CLIENT_ID_CODE_AUTHORIZATION:gateway-service}
+  client-secret: ${CLIENT_SECRET_CODE_AUTHORIZATION:12345}
+
+client-credentials:
+  client-id: ${CLIENT_ID_CLIENT_CREDENTIALS:client-service}
+  client-secret: ${CLIENT_SECRET_CLIENT_CREDENTIALS:123456}
+
+
+
