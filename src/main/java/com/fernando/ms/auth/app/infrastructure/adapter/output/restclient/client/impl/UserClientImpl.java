@@ -1,6 +1,7 @@
 package com.fernando.ms.auth.app.infrastructure.adapter.output.restclient.client.impl;
 
 import com.fernando.ms.auth.app.domain.model.Auth;
+import com.fernando.ms.auth.app.domain.model.User;
 import com.fernando.ms.auth.app.infrastructure.adapter.output.restclient.client.UserClient;
 import com.fernando.ms.auth.app.infrastructure.adapter.output.restclient.models.response.AuthResponse;
 import lombok.RequiredArgsConstructor;

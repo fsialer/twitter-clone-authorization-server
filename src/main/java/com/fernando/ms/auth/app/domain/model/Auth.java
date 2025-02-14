@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Auth extends User{
+public class Auth{
     private String username;
     private String password;
 }

@@ -1,7 +1,8 @@
 package com.fernando.ms.auth.app.application.ports.output;
 
 import com.fernando.ms.auth.app.domain.model.Auth;
+import com.fernando.ms.auth.app.domain.model.User;
 
 public interface ExternalUserOutputPort {
-    Auth authentication(Auth auth);
+    User authentication(Auth auth);
 }

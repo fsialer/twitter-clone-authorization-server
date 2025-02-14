@@ -7,6 +7,7 @@ import com.fernando.ms.auth.app.application.ports.output.ExternalUserOutputPort;
 import com.fernando.ms.auth.app.domain.model.Auth;
 import com.fernando.ms.auth.app.domain.model.CustomUserDetail;
 import com.fernando.ms.auth.app.domain.model.ErrorResponse;
+import com.fernando.ms.auth.app.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,10 +28,11 @@ public class AuthorizationProviderService implements AuthenticationProvider{
         try{
             String username = authentication.getName();
             String password = (String) authentication.getCredentials();
-            Auth authResponse=externalUserOutputPort.authentication(Auth.builder().username(username).password(password).build());
+            User authResponse=externalUserOutputPort.authentication(Auth.builder().username(username).password(password).build());
             CustomUserDetail userDetail=new CustomUserDetail(authResponse.getId(),authResponse.getUsername(),password,authResponse.getNames(),authResponse.getEmail());
             return new UsernamePasswordAuthenticationToken(userDetail, password, userDetail.getAuthorities());
         }catch (HttpClientErrorException ex){
+            System.out.println(ex.getMessage());
             throw new BadCredentialsException(extractErrorMessageFromException(ex));
         }
 

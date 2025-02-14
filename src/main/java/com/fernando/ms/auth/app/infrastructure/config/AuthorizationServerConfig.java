@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -34,6 +36,7 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 
+import java.net.PasswordAuthentication;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
@@ -100,10 +103,15 @@ public class AuthorizationServerConfig  {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(codeAuthorizationClientId)
-                .clientSecret(codeAuthorizationClientSecret)
+                .clientSecret(passwordEncoder().encode(codeAuthorizationClientSecret))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
@@ -122,7 +130,7 @@ public class AuthorizationServerConfig  {
 
         RegisteredClient postmanClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId(clientCredentialClientId)
-                .clientSecret(clientCredentialClientSecret)
+                .clientSecret(passwordEncoder().encode(clientCredentialClientSecret))
                 .scope("read")
                 .scope("write")
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
