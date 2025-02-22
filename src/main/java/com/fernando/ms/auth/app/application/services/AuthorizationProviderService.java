@@ -32,7 +32,6 @@ public class AuthorizationProviderService implements AuthenticationProvider{
             CustomUserDetail userDetail=new CustomUserDetail(authResponse.getId(),authResponse.getUsername(),password,authResponse.getNames(),authResponse.getEmail());
             return new UsernamePasswordAuthenticationToken(userDetail, password, userDetail.getAuthorities());
         }catch (HttpClientErrorException ex){
-            System.out.println(ex.getMessage());
             throw new BadCredentialsException(extractErrorMessageFromException(ex));
         }
 

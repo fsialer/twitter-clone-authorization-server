@@ -13,10 +13,7 @@ public class CustomTokenEnhancer implements OAuth2TokenCustomizer<JwtEncodingCon
         if (context.getTokenType().getValue().equals("access_token")) {
             var authentication = context.getPrincipal();
             if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetail userDetails) {
-                context.getClaims().claims((claims) -> {
-                    System.out.println("user_id"+ userDetails.getId());
-                    claims.put("user_id", userDetails.getId());
-                });
+                context.getClaims().claims((claims) -> claims.put("user_id", userDetails.getId()));
             }
         }
     }

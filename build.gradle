@@ -19,12 +19,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.3.4'
 	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.6.2'
 	implementation group: 'org.projectlombok', name: 'lombok-mapstruct-binding', version: '0.2.0'
-//	implementation 'org.springframework.security:spring-security-oauth2-jose'
-//	implementation 'com.h2database:h2'
 	implementation 'com.azure:azure-security-keyvault-secrets:4.9.2'
 	implementation 'com.azure:azure-identity:1.15.0'
 	compileOnly 'org.projectlombok:lombok'
@@ -32,7 +29,6 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 }

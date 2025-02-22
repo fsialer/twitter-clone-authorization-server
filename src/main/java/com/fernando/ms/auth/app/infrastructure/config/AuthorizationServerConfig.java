@@ -35,8 +35,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
-
-import java.net.PasswordAuthentication;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
@@ -71,19 +69,19 @@ public class AuthorizationServerConfig  {
 
         http
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-                .with(authorizationServerConfigurer, (authorizationServer) ->
+                .with(authorizationServerConfigurer,authorizationServer ->
                         authorizationServer.oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
                 )
-                .authorizeHttpRequests((authorize) ->
+                .authorizeHttpRequests(authorize ->
                         authorize.anyRequest().authenticated()
                 )
-                .exceptionHandling((exceptions) -> exceptions
+                .exceptionHandling(exceptions -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 )
-                .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
+                .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
@@ -93,12 +91,9 @@ public class AuthorizationServerConfig  {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager)
             throws Exception {
         http
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .authenticationManager(authenticationManager) // Configura el AuthenticationManager
-                //.authenticationManager(authManager(http))
-                //.csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults());
-
         return http.build();
     }
 
