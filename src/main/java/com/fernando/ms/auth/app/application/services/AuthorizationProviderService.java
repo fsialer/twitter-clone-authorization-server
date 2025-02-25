@@ -29,11 +29,16 @@ public class AuthorizationProviderService implements AuthenticationProvider{
             String username = authentication.getName();
             String password = (String) authentication.getCredentials();
             User authResponse=externalUserOutputPort.authentication(Auth.builder().username(username).password(password).build());
+            if (authResponse == null) {
+                throw new BadCredentialsException("Invalid credentials.");
+            }
             CustomUserDetail userDetail=new CustomUserDetail(authResponse.getId(),authResponse.getUsername(),password,authResponse.getNames(),authResponse.getEmail());
             return new UsernamePasswordAuthenticationToken(userDetail, password, userDetail.getAuthorities());
-        }catch (HttpClientErrorException ex){
-            throw new BadCredentialsException(extractErrorMessageFromException(ex));
-        }
+        }catch (HttpClientErrorException  ex){
+            throw new BadCredentialsException( extractErrorMessageFromException(ex));
+        }catch (Exception  ex){
+        throw new BadCredentialsException("Error Connection to service");
+    }
 
     }
 
@@ -44,10 +49,11 @@ public class AuthorizationProviderService implements AuthenticationProvider{
 
     private String extractErrorMessageFromException(HttpClientErrorException e)  {
         try {
-            ErrorResponse errorResponse = objectMapper.readValue(e.getResponseBodyAsString(), new TypeReference<ErrorResponse>() {});
-            return errorResponse.getMessage();
+             ErrorResponse errorResponse = objectMapper.readValue(e.getResponseBodyAsString(), new TypeReference<ErrorResponse>() {});
+             return errorResponse.getMessage();
         } catch (JsonProcessingException ex) {
-            throw new BadCredentialsException("Error al procesar la respuesta JSON: "+ e.getResponseBodyAsString());
+             throw new BadCredentialsException("Error al procesar la respuesta JSON: "+ e.getResponseBodyAsString());
         }
     }
+
 }

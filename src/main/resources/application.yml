@@ -9,7 +9,7 @@ client-app:
   url: ${CLIENT_URL:http://localhost:8090}
 
 users-service:
-  url: ${USER_URL:http://localhost:8090/api/v1/users}
+  url: ${USER_URL:http://localhost:8090/api/v1/users/auth}
 
 logging:
   level:
